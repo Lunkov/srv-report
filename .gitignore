@@ -5,6 +5,8 @@ src/region-reaper
 src/*.log
 src/*.log.*
 storage/
+templates/
+fonts/
 .ssh/
 *.log
 *.out
