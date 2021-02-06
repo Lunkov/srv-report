@@ -32,52 +32,17 @@ RUN pwd
 RUN ls -l /home/
 RUN ls -l /root/
 
-RUN mkdir /root/.ssh/
-
-ADD .ssh/.gitconfig          /root/.gitconfig
-ADD .ssh/config              /root/.ssh/config
-ADD .ssh/id_git_dig_center   /root/.ssh/id_git_dig_center
-
-RUN chmod 600 /root/.ssh/id_git_dig_center
-
-RUN ssh-keyscan -t rsa git.c.dig.center 2>&1 >> /root/.ssh/known_hosts
-RUN ssh-keyscan -t rsa git.c.dig.center:22022 2>&1 >> /root/.ssh/known_hosts
-
-RUN ssh -vT git@git.c.dig.center
-
-RUN set
-
 RUN mkdir /app && mkdir /app/templates && mkdir /app/etc
 ADD *.go /app/
 # ADD go.* /app/
 WORKDIR /app/
 RUN cd /app
 
-RUN go get -insecure -u git.c.dig.center/go/env.git
-RUN go get -insecure -u git.c.dig.center/go/cache.git
-RUN go get -insecure -u git.c.dig.center/go/auth.git
-
-RUN go get -u github.com/jung-kurt/gofpdf
-
-RUN go get -u google.golang.org/grpc
-
-RUN apt-get update && apt-get install -y protobuf-compiler && apt-get clean -y
-RUN go get -u github.com/golang/protobuf/protoc-gen-go
-
-RUN find / -name "protoc"
-RUN ls -l
-RUN set
-RUN go version
-
-RUN mkdir /tml && \
-    cd /tmp && \
-    git clone git@git.c.dig.center:rpc-proto/bpmn.git && \
-    cd /tmp/bpmn && ./go-compile.sh
-
 # RUN go get -v -d ./...
 RUN ls -l
 RUN set
 RUN go version
+RUN go get -d
 RUN go build -v -o ./web-service ./...
 
 RUN ls -l /go/src/
