@@ -71,9 +71,8 @@ RUN apk update && \
     apk add -u ca-certificates && \
     rm -rf /var/lib/apt/lists/*
 
-ADD ./docker/nsswitch.conf /etc/nsswitch.conf
-ADD ./fonts       /app/fonts
-#ADD ./web-service /app/web-service
+ADD docker/nsswitch.conf /etc/nsswitch.conf
+ADD fonts       /app/fonts
 
 # Run the command on container startup
 EXPOSE 3000
